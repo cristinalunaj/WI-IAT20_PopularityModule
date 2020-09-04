@@ -1,0 +1,96 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.trees.RandomForest -P 100 -I 100 -num-slots 1 -K 0 -M 1.0 -V 0.001 -S 1
+Relation:     summary_features_participants_classification_th20-weka.filters.unsupervised.attribute.Remove-R10
+Instances:    71
+Attributes:   23
+              n_faces
+              avg_confidence_faces
+              std_confidence_faces
+              avg_relativeSize_faces
+              std_relativeSize_faces
+              avg_thirdRule_x
+              std_thirdRule_x
+              avg_thirdRule_y
+              std_thirdRule_y
+              num_clts
+              avg_silhouette
+              avg_intra_clt_dist
+              avg_inter_clt_dist
+              faces_in_noise_clt
+              num_core_samples
+              avg_imgs_clt
+              avg_std_silhouette
+              avg_std_intra_clt_dist
+              avg_std_inter_clt_dist
+              avg_n_core_samples
+              std_n_core_samples
+              GTrends_popularity
+              label
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+RandomForest
+
+Bagging with 100 iterations and base learner
+
+weka.classifiers.trees.RandomTree -K 0 -M 1.0 -V 0.001 -S 1 -do-not-check-capabilities
+
+Time taken to build model: 0.01 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances          64               90.1408 %
+Incorrectly Classified Instances         7                9.8592 %
+Kappa statistic                          0.7442
+Mean absolute error                      0.1732
+Root mean squared error                  0.2849
+Relative absolute error                 43.7839 %
+Root relative squared error             64.2885 %
+Total Number of Instances               71     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0,942    0,211    0,925      0,942    0,933      0,745    0,909     0,945     1
+                 0,789    0,058    0,833      0,789    0,811      0,745    0,909     0,840     0
+Weighted Avg.    0,901    0,170    0,900      0,901    0,901      0,745    0,909     0,917     
+
+=== Confusion Matrix ===
+
+  a  b   <-- classified as
+ 49  3 |  a = 1
+  4 15 |  b = 0
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     summary_features_participants_classification_th20-weka.filters.unsupervised.attribute.Remove-R10
+Instances:     unknown (yet). Reading incrementally
+Attributes:   23
+
+=== Summary ===
+
+Correctly Classified Instances          16               94.1176 %
+Incorrectly Classified Instances         1                5.8824 %
+Kappa statistic                          0.8496
+Mean absolute error                      0.1665
+Root mean squared error                  0.238 
+Total Number of Instances               17     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0,923    0,000    1,000      0,923    0,960      0,859    1,000     1,000     1
+                 1,000    0,077    0,800      1,000    0,889      0,859    1,000     1,000     0
+Weighted Avg.    0,941    0,018    0,953      0,941    0,943      0,859    1,000     1,000     
+
+=== Confusion Matrix ===
+
+  a  b   <-- classified as
+ 12  1 |  a = 1
+  0  4 |  b = 0
+

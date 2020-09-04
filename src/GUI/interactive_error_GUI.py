@@ -4,9 +4,9 @@
 	date: 08/2020
 	Usage:
 		python3 interactive_error_GUI.py
-        --input-path-imgs ../DATASET_GOOGLE_IMGS/download_name
+        --input-path-imgs ../datasets/DATASET_GOOGLE_IMGS/download_name
         --input-path-clusters .../DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/supervised_results/BASELINE_OFICIAL_LN24H_SOLOIND_globalMax/Cfacial_clustering_results/Google/IND/numImgs/assignation_x/clustering_th_0/cluster_filtering_assignation/TOTAL/x_eps_0_min_samples_0/ZZdebug
-        --output-path-answers .../DATASET_GOOGLE_IMGS/CUESTIONARIOS
+        --output-path-answers .../datasets/DATASET_GOOGLE_IMGS/CUESTIONARIOS
         --name_form rtve2018
         --annotator_id CLJ
         --ref-imgs-path .../DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_LN24H/frames
