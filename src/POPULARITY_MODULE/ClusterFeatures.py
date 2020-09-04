@@ -149,31 +149,3 @@ if __name__ == "__main__":
             df_individual_clt_features.to_csv(os.path.join(args.output_dir, participant.replace(" ", "_") + "_cluster_features_individual.csv"), sep=";",index=False)
 
 
-#PARAMETERS FOR RUNNING
-# --root-input-dir
-# /mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/supervised_results/BASELINE_OFICIAL_LN24H_SOLOIND
-# --add-noise-class
-# False
-# --assignation-type
-# x
-# --qualityTh-valid-cluster
-# 0.0
-# --assignation-method
-# numImgs
-# --dataset
-# Google
-# --program-participants-folder
-# /mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/rttm_INFO/FACEREF/participants
-# --output-dir
-# /mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/CLUSTER
-# --with-previous-individual-clusters
-# --first-param-name
-# eps
-# --second-param-name
-# min_samples
-# --quality-metric
-# silhouette
-# --root-path-MTCNN-results
-# /mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN
-# --program-name
-# TOTAL
