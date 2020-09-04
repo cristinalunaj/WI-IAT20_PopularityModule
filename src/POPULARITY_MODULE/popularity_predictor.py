@@ -1,5 +1,6 @@
 import pandas as pd
 import subprocess, os
+import src.utils.loader as loader
 
 def create_test_arff(participant, test_df, aux_path):
     arff_text = "@relation summary_features \n\n" \
@@ -49,7 +50,7 @@ def evaluate_test_arff(model_path, test_arff_path, out_path):
     :param test_file:
     """
     # PREDICTIONS FILE HEADERS: INSTANCE, ACTUAL, PREDICTED, ERROR
-    bash_file_path = "../../bash_scripts/explorer_test_model.sh  "
+    bash_file_path = "../../data/bash_scripts/explorer_test_model.sh  "
     with open(out_path, 'w') as fi:
         fi.close()
     command = "".join([bash_file_path, test_arff_path, " ", model_path, " ", out_path])
@@ -69,18 +70,17 @@ def remove_lines(path_csv):
 
 if __name__ == "__main__":
     th = "05"
-    path_model = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/RESULTS/CLASIF/th"+th+"/RandomForest.model"
-        #"/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/RESULTS/CLASIF/RandomForest.model"
-    complete_df_ids = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/train/summary_features_participants_classification_th"+th+".csv"
-    aux_path = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/aux_test.arff"
-    out_path_prediction = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/aux_prediction.csv"
+    path_model = "../../data/models/popularity_module/CLASIF/th"+th+"/RandomForest.model"
+    complete_df_ids = "../../data/datasets/popularity_module_features/train/summary_features_participants_classification_th"+th+".csv"
+    aux_path = "../../data/datasets/popularity_module_features/aux_test.arff"
+    out_path_prediction = "../../data/datasets/popularity_module_features/aux_prediction.csv"
     complete_df = pd.read_csv(complete_df_ids, header=0, sep=",")
     bash_test_model = ""
-    path_mtcnn_imgs = "/mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN/TOTAL/mtcnn_debug_100"
-    list_participants = os.listdir(path_mtcnn_imgs)
+    path_participants = "../../data/datasets/DATASET_GOOGLE_IMGS/participants/"
+    list_participants = loader.load_list_of_tertulianos(path_participants, "participants_complete_rtve2018",".csv")
+    #list_participants = [participant.replace(" ", "_") for participant in part]
     df_popularity = pd.DataFrame([], columns=["prediction", "popular", "id"])
-    out_path_popularity_df = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/popularity_df_th"+th+".csv"
-
+    out_path_popularity_df = "../../data/results/popularity_models_output/popularity_df_th"+th+".csv"
     for participant in list_participants:
         participant = participant.replace("_", " ")
         create_test_arff(participant, complete_df, aux_path)

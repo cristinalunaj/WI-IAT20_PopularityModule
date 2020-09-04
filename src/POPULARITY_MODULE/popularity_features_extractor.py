@@ -7,14 +7,14 @@ import os
 import time
 import ast
 
-#DE-NORMALIZATION: https://es.slideshare.net/ShahanAliMemon/google-trends-denormalized-175072435
-#NORMALIZE BY POPULATION: https://medium.com/@dhirajkhanna/normalizing-google-trends-7cbabf09f8f
+#DE-NORMALIZATION: https:/es.slideshare.net/ShahanAliMemon/google-trends-denormalized-175072435
+#NORMALIZE BY POPULATION: https:/medium.com/@dhirajkhanna/normalizing-google-trends-7cbabf09f8f
 
 
 
 
 def get_query_features_GoogleTrends(participant_name, hl = 'en-US', geo = "", gprop=""):
-    #https://towardsdatascience.com/telling-stories-with-google-trends-using-pytrends-in-python-a11e5b8a177
+    #https:/towardsdatascience.com/telling-stories-with-google-trends-using-pytrends-in-python-a11e5b8a177
     #download imgs agosto 2020
     #SPAIN
     # pytrends = TrendReq(hl='es-ES', tz=360, geo="ES")
@@ -46,7 +46,7 @@ def get_suggestions_and_topics(participant_name, hl = 'en-US', geo = "", gprop="
 
 
 def get_query_features_GoogleTrends_comparison(list_participant_names, country = 'en-US', geo = ""):
-    #https://towardsdatascience.com/telling-stories-with-google-trends-using-pytrends-in-python-a11e5b8a177
+    #https:/towardsdatascience.com/telling-stories-with-google-trends-using-pytrends-in-python-a11e5b8a177
     #download imgs agosto 2020
     #SPAIN
     # pytrends = TrendReq(hl='es-ES', tz=360, geo="ES")
@@ -191,43 +191,43 @@ if __name__ == "__main__":
     root_path_face_diarization = "/home/cristinalunaj/PycharmProjects/RTVE_2018_MM_DIARIZATION"
     if(train):
         #IMG
-        path_imgs = "/mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/download_name"
-        path_mtcnn = "/mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN/TOTAL/mtcnn_debug_100"
-        out_path_img_features = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/IMAGES/train/"
+        path_imgs = "../DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/download_name"
+        path_mtcnn = "../DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN/TOTAL/mtcnn_debug_100"
+        out_path_img_features = "../POPULARITY_EXPERIMENTS/FEATURES/IMAGES/train/"
         #CLT
-        out_dir_clt = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/CLUSTER/train"
-        program_participants_folder = "/mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/rttm_INFO/FACEREF/participants"
-        path_mtcnn = "/mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN"
-        path_mtcnn_imgs = "/mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN/TOTAL/mtcnn_debug_100"
-        root_input_dir = "/mnt/RESOURCES/DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/supervised_results/BASELINE_OFICIAL_LN24H_SOLOIND"
+        out_dir_clt = "../POPULARITY_EXPERIMENTS/FEATURES/CLUSTER/train"
+        program_participants_folder = "../DATASET_RTVE_2018/RTVE2018DB/test/rttm_INFO/FACEREF/participants"
+        path_mtcnn = "../DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN"
+        path_mtcnn_imgs = "../DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN/TOTAL/mtcnn_debug_100"
+        root_input_dir = "../DATASET_RTVE_2018/RTVE2018DB/test/GENERATED_ME/supervised_results/BASELINE_OFICIAL_LN24H_SOLOIND"
         #GTRENDS
-        output_path_single_df = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SINGLE_ID_global_all"
-        # output_path_single_df_spain = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SINGLE_ID_SPAIN_all"
-        # out_path_single_df_suggestions_dict_spain = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SUGGESTIONS_spain"
-        # out_path_single_df_suggestions_dict_world = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SUGGESTIONS_global"
+        output_path_single_df = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SINGLE_ID_global_all"
+        # output_path_single_df_spain = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SINGLE_ID_SPAIN_all"
+        # out_path_single_df_suggestions_dict_spain = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SUGGESTIONS_spain"
+        # out_path_single_df_suggestions_dict_world = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/train/SUGGESTIONS_global"
         #LABELS:
-        path_labels = "/mnt/RESOURCES2/ETIQUETADO_RTVE/CLUSTERS_TOTAL_RTVE2018_TEST_globalMAX/TOTAL/x_eps_0_min_samples_0/CUESTIONARIOS/total_cuestionarios.csv"
+        path_labels = "../ETIQUETADO_RTVE/CLUSTERS_TOTAL_RTVE2018_TEST_globalMAX/TOTAL/x_eps_0_min_samples_0/CUESTIONARIOS/total_cuestionarios.csv"
         #JOIN:
-        out_path_total_features = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/train/summary_features_participants_classification.csv"
+        out_path_total_features = "../POPULARITY_EXPERIMENTS/FEATURES/DATASETS/train/summary_features_participants_classification.csv"
     else:
         #IMG
-        path_imgs = "/mnt/RESOURCES/DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/DATASET_GOOGLE_IMGS/download_name"
-        path_mtcnn = "/mnt/RESOURCES/DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN"
-        path_mtcnn_imgs = "/mnt/RESOURCES/DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN/TOTAL/mtcnn_debug_100"
-        out_path_img_features = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/IMAGES/test/"
+        path_imgs = "../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/DATASET_GOOGLE_IMGS/download_name"
+        path_mtcnn = "../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN"
+        path_mtcnn_imgs = "../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN/TOTAL/mtcnn_debug_100"
+        out_path_img_features = "../POPULARITY_EXPERIMENTS/FEATURES/IMAGES/test/"
         #CLT
-        out_dir_clt = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/CLUSTER/test"
-        program_participants_folder = "/mnt/RESOURCES/DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants"
-        root_input_dir = "/mnt/RESOURCES/DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/supervised_results/BASELINE_OFICIAL_RTVE2020_globalMax"
+        out_dir_clt = "../POPULARITY_EXPERIMENTS/FEATURES/CLUSTER/test"
+        program_participants_folder = "../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants"
+        root_input_dir = "../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/supervised_results/BASELINE_OFICIAL_RTVE2020_globalMax"
         #GTRENDS
-        output_path_single_df = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SINGLE_ID_global_all"
-        # output_path_single_df_spain = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SINGLE_ID_SPAIN_all"
-        # out_path_single_df_suggestions_dict_spain = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SUGGESTIONS_spain"
-        # out_path_single_df_suggestions_dict_world = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SUGGESTIONS_global"
+        output_path_single_df = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SINGLE_ID_global_all"
+        # output_path_single_df_spain = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SINGLE_ID_SPAIN_all"
+        # out_path_single_df_suggestions_dict_spain = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SUGGESTIONS_spain"
+        # out_path_single_df_suggestions_dict_world = "../POPULARITY_EXPERIMENTS/FEATURES/GOOGLE_TRENDS/test/SUGGESTIONS_global"
         #LABELS:
-        path_labels = "/mnt/RESOURCES2/ETIQUETADO_RTVE/CLUSTERS_TOTAL_RTVE2020_globalMAX/TOTAL/x_eps_0_min_samples_0/RTVE2020_Ricardo/CUESTIONARIOS/rtve2020_Ricardo_TOTAL.csv"
+        path_labels = "../ETIQUETADO_RTVE/CLUSTERS_TOTAL_RTVE2020_globalMAX/TOTAL/x_eps_0_min_samples_0/RTVE2020_Ricardo/CUESTIONARIOS/rtve2020_Ricardo_TOTAL.csv"
         #JOIN:
-        out_path_total_features = "/mnt/RESOURCES2/POPULARITY_EXPERIMENTS/FEATURES/DATASETS/test/summary_features_participants_classification.csv"
+        out_path_total_features = "../POPULARITY_EXPERIMENTS/FEATURES/DATASETS/test/summary_features_participants_classification.csv"
     #CREATE FOLDERS:
     os.makedirs(out_path_img_features, exist_ok=True)
     os.makedirs(out_dir_clt, exist_ok=True)
@@ -254,8 +254,8 @@ if __name__ == "__main__":
     # CLUSTER FEATURES
 
     print("EXTRACTING CLUSTER FEATURES ...")
-    path_2_virtualenv = "/home/cristinalunaj/.virtualenvs/RTVE_2018_MM_DIARIZATION/bin/activate"
-    command = ". " + path_2_virtualenv + " ;python3 " + root_path_face_diarization + "/src/FACE_DIARIZATION/B_GooglePopularity/ClusterFeatures.py \
+    path_2_virtualenv = "../.virtualenvs/RTVE_2018_MM_DIARIZATION/bin/activate"
+    command = ". " + path_2_virtualenv + " ;python3 " + root_path_face_diarization + "/src/POPULARITY_MODULE/ClusterFeatures.py \
                     --root-input-dir "+root_input_dir+" \
                     --add-noise-class False \
                     --assignation-type x \

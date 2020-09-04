@@ -573,3 +573,153 @@ class IndividualClusterConsolidatorArgs(ClusteringArgs):
 
 
 
+
+# RESULTS ------------------------------------------------------------
+class ResultsCommonArgs(BaseArgs):
+    def __init__(self):
+        super().__init__()
+
+    def initialize(self):
+        BaseArgs.initialize(self)
+
+        self.parser.add_argument(
+            "--assignation-type",
+            type=str,
+            default="One2One",
+            help="Type of cluster-participant assignation [Options: One2One or Many2One]."
+                 "In an assingation One2One: One cluster (the best) may be assigned to One participant."
+                 "In an Many2One assignation: Many clusters (those that accomplish the cuality criterion:qualityTh-valid-cluster)"
+                 " may be assigned to One participant")
+
+        self.parser.add_argument(
+            "--qualityTh-valid-cluster",
+            type=float,
+            default=0.5,
+            help="Percentage of images in cluster for being considered as good quality cluster for assigning it"
+                 " to a participant [default: 0.5]")
+
+        self.parser.add_argument(
+            "--assignation-method",
+            type=str,
+            default="V_M",
+            help="Method to use for assgination of clusters to participants[default: V_M (unique implmented by now)]")
+
+        self.parser.add_argument(
+            "--program-name",
+            type=str,
+            default=None,
+            help="Name of the program to analyse (if we want to process a single program, else None)")
+
+        self.parser.add_argument(
+            "--dataset",
+            type=str,
+            default='',
+            help="Dataset to extract clustering (e.g Google, OCR, Google_OCR, Google_Program ...")
+
+        self.parser.add_argument(
+            "--program-participants-folder",
+            type=str,
+            default=None,
+            help="Path to the files with the names of the participants "
+                 "(See DSPreparator.py outputs ")
+
+        self.parser.add_argument(
+            "--add-noise-class",
+            type=str2bool, nargs='?',
+            const=True,
+            default=False,
+            help="True if our model will include a noise class label, else False. If True, path to noise_data must be introduced"
+                 "in noise_data_path (when it is a required parameter)")
+
+        self.parser.add_argument(
+            "--first-param-name",
+            type=str,
+            default='eps',
+            help="Name of the first param as it appears in the DBSCAN and HDBSCAN libraries."
+                 "DBSCAN: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html"
+                 "HDBSCAN: https://github.com/scikit-learn-contrib/hdbscan "
+                 "[default: eps (DBSCAN param.)]")
+
+        self.parser.add_argument(
+            "--second-param-name",
+            type=str,
+            default='min_samples',
+            help="Name of the second param as it appears in the DBSCAN and HDBSCAN libraries."
+                 "DBSCAN: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html"
+                 "HDBSCAN: https://github.com/scikit-learn-contrib/hdbscan "
+                 "[default: min_samples (DBSCAN & HBSCAN param.)]")
+
+        self.parser.add_argument(
+            "--with-previous-individual-clusters",
+            type=str2bool, nargs='?',
+            const=True, default=False,
+            help="True if we did a previous individual cluster per participant"
+                 "else False. "
+                 "This parameter is just informative in order to save results in different folders")
+
+        self.parser.add_argument(
+            "--with-previous-common-clusters",
+            type=str2bool, nargs='?',
+            const=True, default=False,
+            help="True if we did a previous common cluster with all the participants"
+                 "else False. "
+                 "This parameter is just informative in order to save results in different folders")
+
+        self.parser.add_argument(
+            "--quality-metric",
+            type=str,
+            default='silhouette',
+            help="Metric to use as quality and select the best cluster combination of parameters."
+                 " Options ( cluster, v_meassure, silhouette, calinski_harabasz)."
+                 "cluster -> Select those parameters that obtain the max. number of clusters"
+                 "v_meassure -> Select those parameters that obtain the max. v_meassure (See: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.homogeneity_completeness_v_measure.html)"
+                 "silhouette -> Select those parameters that obtain the max. silhouette (See: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html)")
+
+    def correct(self):
+        assignation_type = ['One2One', 'Many2One', 'x']
+        if self.args.assignation_type not in assignation_type:
+            raise NotImplementedError('Assignation type not implemented, try: One2One or Many2One')
+        assert isinstance(self.args.qualityTh_valid_cluster, float) and self.args.qualityTh_valid_cluster <= 1
+        if self.args.assignation_method not in ["V_M", "x", 'numImgs', 'minDist']:
+            raise NotImplementedError('Assignation method '+self.args.assignation_method+'not implemented, try: V_M')
+        assert (isinstance(self.args.program_name, str) or self.args.program_name == None)
+        assert isinstance(self.args.dataset, str)
+        assert (os.path.isdir(self.args.program_participants_folder))
+        assert isinstance(self.args.add_noise_class, bool)
+        assert isinstance(self.args.first_param_name, str)
+        assert isinstance(self.args.second_param_name, str)
+        if self.args.quality_metric not in ["cluster", "v_meassure", "silhouette", "calinski_harabasz"]:
+            raise NotImplementedError('Quality metric not implemented')
+        assert isinstance(self.args.with_previous_individual_clusters, bool)
+        assert isinstance(self.args.with_previous_common_clusters, bool)
+
+
+class ClusteringCleanerArgs(ResultsCommonArgs):
+    def __init__(self):
+        super().__init__()
+
+    def initialize(self):
+        ResultsCommonArgs.initialize(self)
+        self.parser.add_argument(
+            "--root-input-dir",
+            type=str,
+            default=None,
+            help="Input dir where clustering results were saved. If None, then output dir is taken as reference and the data"
+                 "will be search in default locations : output_dir/Cfacial_clustering_results/..")
+
+        self.parser.add_argument(
+            "--root-path-MTCNN-results",
+            type=str,
+            default=None,
+            help="Root path to the results obained by MTCNN (embs, bbox, mtcnn_debub, bbox_summ)")
+
+        self.parser.add_argument(
+            "--quiet",
+            type=bool,
+            default=True,
+            help="")
+
+    def correct(self):
+        ResultsCommonArgs.correct(self)
+        assert (os.path.isdir(
+            self.args.root_input_dir)) or self.args.root_input_dir == None or self.args.root_input_dir == 'None'

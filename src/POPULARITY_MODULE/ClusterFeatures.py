@@ -5,8 +5,6 @@ import src.metrics.metrics_clustering as metrics
 import sklearn
 from src.BaseArgs import ClusteringCleanerArgs
 import src.utils.loader as loader
-import shutil
-import re
 
 class ClusterFeatures():
     def __init__(self, input_dir, root_path_MTCNN_results, output_dir,program_name,program_participants, root_input_dir_parameters,
