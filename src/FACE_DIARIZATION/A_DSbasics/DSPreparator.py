@@ -171,6 +171,9 @@ class DSPreparator():
         # SAVE COMPLETE SET FOR ALL PROGRAMS:
         output_rttm_path_complete = os.path.join(self.output_dir_participants_files, self.category, "participants_complete.csv")
         pd.DataFrame(sorted(list(participants_set_filtered)), columns=[self.category]).to_csv(output_rttm_path_complete, header=False, index=False)
+        self.save_participants_data("TOTAL", sorted(list(participants_set_filtered)))
+
+
         # save dict
         output_path_dict = os.path.join(self.output_dir_participants_files, self.category, "complete_dict.npy")
         np.save(output_path_dict, dict_pred_labels_names)

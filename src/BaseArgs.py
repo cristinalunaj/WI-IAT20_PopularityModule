@@ -266,7 +266,7 @@ class FaceDetEncArgs(BaseArgs):
         self.parser.add_argument(
             "--encoding-model",
             type=str,
-            default='../../../Bresources/pre_trained_models/face_embs_model/facenet_keras.h5',
+            default='../../data/models/pre_trained_models/face_embs_model/facenet_keras.h5',
             help="Path to face encoding model weights [default: Keras Facenet")
         self.parser.add_argument(
             "--face-detector",

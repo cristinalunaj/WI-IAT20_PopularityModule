@@ -1,3 +1,51 @@
+"""
+    Extract features from DBSCAN clusters that show results related to the quality of clusters and number of images
+	author: Cristina Luna, Ricardo Kleinlein
+	date: 05/2020
+	Usage:
+		python3 ClusterScan.py
+		PARAMETERS FOR RUNNING
+         --root-input-dir ../supervised_results/BASELINE_OFICIAL_LN24H_SOLOIND
+         --add-noise-class False
+         --assignation-type x
+         --qualityTh-valid-cluster 0.0
+         --assignation-method numImgs
+         --dataset Google
+         --program-participants-folder ../../data/datasets/DATASET_GOOGLE_IMGS/participants
+         --output-dir ../../data/datasets/popularity_module_features/aux
+         --with-previous-individual-clusters
+         --first-param-name eps
+         --second-param-name min_samples
+         --quality-metric silhouette
+         --root-path-MTCNN-results ../DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN
+         --program-name TOTAL
+	Options:
+	    --root-path-MTCNN-results: Root path to the results obained by MTCNN (embs, bbox, mtcnn_debub, bbox_summ)
+	    --program-participants-folder: Path to the folder with the .csv that contain the names of the
+	    participants per program (See /AQuery_launcher/Aqeury_launcher_bingEngine.py
+	    --first-param-name: Name of the first param as it appears in the DBSCAN and HDBSCAN libraries.
+                 -DBSCAN: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html
+                 -HDBSCAN: https://github.com/scikit-learn-contrib/hdbscan
+                 [default: eps (DBSCAN param.)]
+	    --first-param-lower: Lower value for first parameter [default: 0.5]. For DBSCAN this parameter is eps
+	    --first-param-upper: Upper value for fisrt parameter [default: 12]. For DBSCAN this parameter is eps
+	    --first-param-step: Step between 2 consecutive values of the first parameter. For DBSCAN this parameter is eps
+	    --second-param-value: List with second param values [default: [10]]
+	    --metric: Distance metric in DBSCAN [Options: euclidean, cosine, manhattan, l1, l2]
+	    --dataset: Dataset reference name to extract clustering & save results(e.g Google, OCR, Google_OCR, Google_Program ...)
+		--output-dir	Directory to save results in.By default, it will act as root folder and results will be saved in the
+		path: output_dir/Cfacial_clustering_results/'dataset'/
+		                                                |_cluster_models/'program'/
+		                                                                    |_cluster_eps_x_minSamples_x.sav
+		                                                |_cluster_graphics/parameters/'program'
+		                                                                                |_(matrix/graphics...)
+		--individual-clusters: True if we want a cluster per participant, else it creates a common cluster for all participants
+        --quality-metric: Metric to use as quality and select the best cluster combination of parameters. Options ( cluster, v_meassure, silhouette, calinski_harabasz).
+        --with-previous-individual-clusters: True if we did a previous individual cluster per participant, else False
+        --with-previous-common-clusters: True if we did a previous common cluster with all the participants, else False.
+		-h, --help	Display script additional help
+"""
+
 import os
 import pandas as pd
 import numpy as np
@@ -26,9 +74,10 @@ class ClusterFeatures():
 
     def extract_clt_features(self,participant):
         """
-
-        :param participant:
-        :return:
+        Extract DBSCAN cluster features
+        :param participant: Name of the participant in folder
+        :return: 1. dataframe with statistics of global cluster features and
+                 2. dataframe with statistics of individual cluster features
         """
         #Load best parameters per participant
         input_path_parameters_participant = os.path.join(self.input_path_parameters, participant)
