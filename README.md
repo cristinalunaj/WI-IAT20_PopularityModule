@@ -49,38 +49,97 @@ as well as their results. Examples are illustrated for the case of using RTVE202
 
 1. This module generates an automatic list of participants per program as well as a complete list with all the participants of the programs (participants_complete.csv), as it can be seen
 in an example under: data/datasets/DATASET_GOOGLE_IMGS/participants/participants_complete_rtve2020.csv.
-```
-python3 DSPreparator.py
---input-path-labels-rttm ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm
---output-path-labels-rttm ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/Amd_eval_adapted_rttm
---output-path-participants-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO
---category FACE
---programs-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/video
---semi-supervised True
-```
+    ```
+    python3 DSPreparator.py
+    --input-path-labels-rttm ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm
+    --output-path-labels-rttm ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/Amd_eval_adapted_rttm
+    --output-path-participants-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO
+    --category FACE
+    --programs-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/video
+    --semi-supervised True
+    ```
 
 2. This module download images from Google using Selenium. It has an offset of 5 images, so if 150 are required in many cases 155 will be provided except when there are errors.
 IMPORTANT: This script does not run in second plane so, once it is launched it blocks the GUI.
 
-```
-python3 GoogleQueryLauncher.py
---participants-path ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants_complete.csv
---imgs-2-download 150 
---chrome-driver-path .../chromedriver_linux64/chromedriver
---output-dir WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/download_name
---logs-path WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/URL_imgs_logs/rtve2020
-```
+    ```
+    python3 GoogleQueryLauncher.py
+    --participants-path ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants_complete.csv
+    --imgs-2-download 150 
+    --chrome-driver-path .../chromedriver_linux64/chromedriver
+    --output-dir WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/download_name
+    --logs-path WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/URL_imgs_logs/rtve2020
+    ```
 
 3. Change structure of the dataset to save all the particiapants under a folder with name: 'TOTAL', that will be our program_name
 
-```
-python3 RefactorDS.py
---root-input-path WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/download_name
---set-to-analyse Google
---program-participants-folder /mnt/RESOURCES/DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants
---output-dir /mnt/RESOURCES/DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/GENERATED_ME/DATASET_GOOGLE_IMGS/refactor_DS
-```
+    ```
+    python3 RefactorDS.py
+    --root-input-path WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/download_name
+    --set-to-analyse Google
+    --program-participants-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants
+    --output-dir WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/refactor_DS
+    ```
 
+4. Detect faces in image and extract bounding boxes using MTCNN (https://pypi.org/project/mtcnn/). After that, pass the generated 
+bounding boxes to FaceNet, extracting an embedding representation of tthe face, which locate the face in a latent space of 128-dimensions.
+FaceNet weigths are saved in: data/models/pre_trained_models/face_embs_model/facenet_keras.h5.
+In this case, the number of images processed will be 100 and the confidence required to faces extracted by MTCNN to be a face is: 98%.
+    ```
+    python3 FaceDetectorAndEncoder.py
+    --face-detector MTCNN
+    --root-input-folder WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/refactor_DS
+    --program-name TOTAL
+    --output-dir WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN
+    --program-participants-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants
+    --imgs-2-maintain 100
+    --face-threshold 0.98
+    --encoding-model WI-IAT20_PopularityModule/data/models/pre_trained_models/face_embs_model/facenet_keras.h5
+    ```
+
+5. Create DBSCAN clusters scanning from eps 0.5 - 12.0 in steps of 0.5. For each participant, 24 configurations are generated, from which parameters
+like the silhouette are extracted in order to compare quality of each one, and select the best configuration.
+    ```
+    python3 ClusterScan.py
+    --root-path-MTCNN-results WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN
+    --program-participants-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants
+    --program-name TOTAL
+    --first-param-lower 0.5
+    --first-param-upper 12
+    --first-param-step 0.5
+    --first-param-name eps
+    --second-param-name min_samples
+    --second-param-value [5]
+    --metric euclidean
+    --dataset Google
+    --output-dir WI-IAT20_PopularityModule/data/results/supervised_results/BASELINE_OFICIAL_RTVE2020_globalMax
+    --cluster-instance DBSCAN
+    --individual-clusters
+    --quality-metric silhouette
+    ```
+
+6. Once the best clustering configuration is chosen, this module selects the most likely cluster of representing the participant.
+In this case,the criterion for selecting the most probable cluster is based on the number of images.   
+    ```
+    python3 IndividualClusterConsolidation.py
+    --root-path-MTCNN-results WI-IAT20_PopularityModule/data/datasets/DATASET_GOOGLE_IMGS/VIDEO_DB_MTCNN
+    --program-participants-folder ../DATASET_RTVE_2020/GOOGLE_RTVE_2020/dev/rttm_INFO/FACE/participants
+    --program-name TOTAL
+    --first-param-lower 0.5
+    --first-param-upper 12
+    --first-param-step 0.5
+    --first-param-name eps
+    --second-param-name min_samples
+    --second-param-value [5]
+    --metric euclidean
+    --dataset Google
+    --output-dir WI-IAT20_PopularityModule/data/results/supervised_results/BASELINE_OFICIAL_RTVE2020_globalMax
+    --cluster-instance DBSCAN
+    --consolidation-type numImgs
+    --quality-metric silhouette
+    ```
+
+7. Popularity module...
 
 ... TO CONTINUE..
 
